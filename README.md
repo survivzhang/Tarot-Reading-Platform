@@ -122,12 +122,26 @@ The CI pipeline runs on every push and pull request:
 
 ### Required GitHub Secrets
 
-For CI/CD to work, add these secrets to your GitHub repository:
+**Minimum required for CI:**
+- `DATABASE_URL`: PostgreSQL connection string (for build validation)
 
-- `DATABASE_URL`: PostgreSQL connection string
-- `VERCEL_TOKEN`: Vercel authentication token (if using Vercel)
-- `VERCEL_ORG_ID`: Vercel organization ID (if using Vercel)
-- `VERCEL_PROJECT_ID`: Vercel project ID (if using Vercel)
+**Optional - Only if using Vercel deployment:**
+- `VERCEL_TOKEN`: Vercel authentication token
+- `VERCEL_ORG_ID`: Vercel organization ID  
+- `VERCEL_PROJECT_ID`: Vercel project ID
+
+> **Note**: The Vercel deployment workflow is **disabled by default**. See [DEPLOYMENT.md](.github/DEPLOYMENT.md) for setup instructions.
+
+### Deployment Options
+
+This project supports multiple deployment platforms:
+- **Vercel** (recommended for Next.js) - See [DEPLOYMENT.md](.github/DEPLOYMENT.md#option-1-vercel-recommended-for-nextjs)
+- **Railway** - See [DEPLOYMENT.md](.github/DEPLOYMENT.md#option-2-railway)
+- **Render** - See [DEPLOYMENT.md](.github/DEPLOYMENT.md#option-3-render)
+- **Docker** - See [DEPLOYMENT.md](.github/DEPLOYMENT.md#option-4-docker-self-hosted)
+- **Manual** - See [DEPLOYMENT.md](.github/DEPLOYMENT.md#option-5-manual-deployment-no-cicd)
+
+For detailed deployment instructions, see [`.github/DEPLOYMENT.md`](.github/DEPLOYMENT.md).
 
 ---
 
