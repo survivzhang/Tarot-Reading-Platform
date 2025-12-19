@@ -10,6 +10,10 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     environment: production
+    env:
+      # Production DATABASE_URL must be set as a GitHub secret
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NODE_ENV: production
     
     steps:
       - name: Checkout code
@@ -26,14 +30,9 @@ jobs:
 
       - name: Generate Prisma Client
         run: npx prisma generate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Build Next.js application
         run: npm run build
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          NODE_ENV: production
 
       # Uncomment and configure if deploying to Vercel
       # - name: Deploy to Vercel

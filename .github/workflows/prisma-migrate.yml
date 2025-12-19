@@ -21,6 +21,9 @@ jobs:
     name: Run Prisma Migrations
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
+    env:
+      # DATABASE_URL must be set as a GitHub secret for the selected environment
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     
     steps:
       - name: Checkout code
@@ -37,16 +40,10 @@ jobs:
 
       - name: Generate Prisma Client
         run: npx prisma generate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Run Prisma Migrate
         run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Verify migration
         run: npx prisma migrate status
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
