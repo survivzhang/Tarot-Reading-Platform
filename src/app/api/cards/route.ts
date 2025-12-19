@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const cards = await prisma.tarotCard.findMany();
     return NextResponse.json(cards);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch cards' },
       { status: 500 }
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       data: body
     });
     return NextResponse.json(newCard);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to create card' },
       { status: 500 }

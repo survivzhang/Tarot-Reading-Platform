@@ -21,7 +21,7 @@ export default async function Home() {
         <h1 className="text-5xl font-serif font-bold text-purple-400 mb-4">
           Tarot Reading Platform
         </h1>
-        <p className="text-slate-400 italic">"The cards are a mirror to the soul."</p>
+        <p className="text-slate-400 italic">&ldquo;The cards are a mirror to the soul.&rdquo;</p>
       </header>
 
       <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
