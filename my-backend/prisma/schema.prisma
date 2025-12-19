@@ -1,0 +1,19 @@
+// This is your database connection
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// THIS IS YOUR MODEL (The Table)
+model TarotCard {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  arcana          String   // Major or Minor
+  meaningUpright  String
+  meaningReversed String
+  imageUrl        String?
+  createdAt       DateTime @default(now())
+}
