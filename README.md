@@ -31,12 +31,30 @@ The application supports bilingual content (English / 中文), email-based accou
 
 ### Database
 - PostgreSQL
+- Prisma ORM
 
 ### Payment
 - Stripe
 
 ### Version Control
 - Git & GitHub
+
+---
+
+## 📁 Project Structure
+
+```
+TAROT-READING-PLATFORM/
+├── node_modules/
+├── prisma/             # Database schema and migrations
+├── src/                # Next.js application
+│   ├── app/           # App router pages and API routes
+│   └── lib/           # Shared utilities (Prisma client, etc.)
+├── public/            # Static assets
+├── .env               # Environment variables (database credentials)
+├── package.json
+└── README.md
+```
 
 ---
 
