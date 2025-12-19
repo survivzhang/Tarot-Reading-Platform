@@ -13,7 +13,6 @@ jobs:
     env:
       # Production DATABASE_URL must be set as a GitHub secret
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      NODE_ENV: production
     
     steps:
       - name: Checkout code

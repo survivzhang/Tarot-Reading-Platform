@@ -43,7 +43,6 @@ jobs:
     env:
       # Use dummy DATABASE_URL for CI - Prisma needs it for generation but won't connect
       DATABASE_URL: postgresql://user:password@localhost:5432/test_db?schema=public
-      NODE_ENV: production
     
     steps:
       - name: Checkout code
