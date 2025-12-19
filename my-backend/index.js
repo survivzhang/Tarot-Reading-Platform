@@ -1,5 +1,5 @@
 const express = require('express');
-const prisma = require('./lib/prisma');
+const prisma = require('./tarot-frontend/lib/prisma');
 const app = express();
 app.use(express.json());
 
