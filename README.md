@@ -65,3 +65,88 @@ TAROT-READING-PLATFORM/
 ```bash
 git clone https://github.com/your-username/ai-tarot-life.git
 cd ai-tarot-life
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env` file in the root directory:
+
+```bash
+DATABASE_URL="postgresql://username:password@host:port/database_name?schema=public"
+```
+
+### 4. Set up the database
+
+```bash
+# Generate Prisma Client
+npm run prisma:generate
+
+# Run migrations
+npm run prisma:migrate
+
+# (Optional) Open Prisma Studio to view/edit data
+npm run prisma:studio
+```
+
+### 5. Run the development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 🔄 CI/CD
+
+This project uses GitHub Actions for continuous integration and deployment.
+
+### CI Pipeline
+
+The CI pipeline runs on every push and pull request:
+- **Lint and Type Check**: Runs ESLint and TypeScript type checking
+- **Build**: Builds the Next.js application
+- **Prisma Validation**: Validates the Prisma schema
+
+### Deployment
+
+- **Vercel**: Automatic deployment on push to `main` branch (configured in `.github/workflows/vercel.yml`)
+- **Manual Deployment**: Use the deploy workflow for other platforms
+
+### Required GitHub Secrets
+
+For CI/CD to work, add these secrets to your GitHub repository:
+
+- `DATABASE_URL`: PostgreSQL connection string
+- `VERCEL_TOKEN`: Vercel authentication token (if using Vercel)
+- `VERCEL_ORG_ID`: Vercel organization ID (if using Vercel)
+- `VERCEL_PROJECT_ID`: Vercel project ID (if using Vercel)
+
+---
+
+## 📝 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
+- `npm run prisma:generate` - Generate Prisma Client
+- `npm run prisma:validate` - Validate Prisma schema
+- `npm run prisma:migrate` - Run Prisma migrations
+- `npm run prisma:studio` - Open Prisma Studio
+
+---
+
+## 🧪 Testing
+
+```bash
+# Add your test commands here when tests are added
+# npm test

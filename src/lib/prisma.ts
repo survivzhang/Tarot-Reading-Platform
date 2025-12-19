@@ -4,6 +4,9 @@ import { Pool } from 'pg';
 
 // 1. Setup the connection pool using your .env variable
 const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error('DATABASE_URL environment variable is not set. Please check your .env file.');
+}
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 

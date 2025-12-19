@@ -1,8 +1,19 @@
 import prisma from '@/lib/prisma';
+import type { TarotCard } from '.prisma/client';
+
+// Force dynamic rendering to avoid build-time database access
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // This runs on the SERVER and fetches from your local Postgres
-  const cards = await prisma.tarotCard.findMany();
+  let cards: TarotCard[] = [];
+  try {
+    cards = await prisma.tarotCard.findMany();
+  } catch (error) {
+    console.error('Database connection error:', error);
+    // Continue with empty cards array if database is unavailable
+    cards = [];
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 p-8">
