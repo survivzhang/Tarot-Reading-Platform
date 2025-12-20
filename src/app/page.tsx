@@ -25,8 +25,18 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/cards')
       .then((res) => res.json())
-      .then((data) => setCardsData(data))
-      .catch((error) => console.error('Error fetching cards:', error));
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setCardsData(data);
+        } else {
+          console.error('Unexpected cards data format:', data);
+          setCardsData([]);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching cards:', error);
+        setCardsData([]);
+      });
   }, []);
 
   const handleStartDrawing = () => {

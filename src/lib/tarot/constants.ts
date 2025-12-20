@@ -29,7 +29,7 @@ export const TAROT_CARDS: TarotCardData[] = [
     meaningReversedZh: '鲁莽、被利用、不顾后果。你可能在不考虑后果的情况下冲动行事，或者在犹豫是否要迈出必要的一步。',
     keywords: ['new beginnings', 'innocence', 'freedom', 'adventure'],
     keywordsZh: ['新开始', '天真', '自由', '冒险'],
-    imageUrl: '/cards/00-the-fool.jpg',
+    imageUrl: '/cards/01-the-fool.jpg',
   },
   {
     cardNumber: 1,
