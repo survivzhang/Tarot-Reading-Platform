@@ -1,4 +1,4 @@
-// This is your database connection
+// Database connection (URL configured in prisma.config.ts)
 datasource db {
   provider = "postgresql"
 }
@@ -7,13 +7,194 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// THIS IS YOUR MODEL (The Table)
+// ====================================
+// TAROT CARDS (Static data - 78 cards)
+// ====================================
+
 model TarotCard {
-  id              Int      @id @default(autoincrement())
-  name            String   @unique
-  arcana          String   // Major or Minor
-  meaningUpright  String
-  meaningReversed String
-  imageUrl        String?
-  createdAt       DateTime @default(now())
+  id               Int       @id @default(autoincrement())
+  cardNumber       Int       @unique  // 0-77
+  name             String    @unique  // "The Fool", "The Magician"
+  nameZh           String              // Chinese name
+  arcana           ArcanaType          // MAJOR or MINOR
+  suit             String?             // cups, wands, swords, pentacles (null for major)
+  meaningUpright   String    @db.Text
+  meaningReversed  String    @db.Text
+  meaningUprightZh String    @db.Text
+  meaningReversedZh String   @db.Text
+  keywords         String[]            // ["new beginnings", "freedom"]
+  keywordsZh       String[]
+  imageUrl         String              // "/cards/00-the-fool.jpg"
+  createdAt        DateTime  @default(now())
+
+  drawnCards       DrawnCard[]
+}
+
+enum ArcanaType {
+  MAJOR
+  MINOR
+}
+
+// ====================================
+// USERS
+// ====================================
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  emailVerified     Boolean   @default(false)
+  region            Region    @default(US)  // Detected on first signup
+
+  freeReadingsLeft  Int       @default(2)   // Starts with 2 free readings
+  paidReadingsLeft  Int       @default(0)   // Purchased credits
+
+  isLifetimeMember  Boolean   @default(false)
+  lifetimeMemberSince DateTime?
+  lifetimeReadingsThisYear Int @default(0)  // Resets annually
+  lifetimeYearStart DateTime?                // Track year boundary
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  readings          Reading[]
+  transactions      Transaction[]
+  referrals         Referral[] @relation("Referrer")
+  referredBy        Referral?  @relation("Referred")
+
+  @@index([email])
+}
+
+enum Region {
+  CN    // China
+  US    // Rest of world (default)
+}
+
+// ====================================
+// READINGS
+// ====================================
+
+model Reading {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  question          String    @db.Text
+  language          Language  @default(EN)
+
+  // AI Interpretation
+  interpretation    String?   @db.Text
+  aiModel           String?   // "gpt-4", "claude-3-opus"
+  interpretedAt     DateTime?
+
+  status            ReadingStatus @default(PENDING)
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  drawnCards        DrawnCard[]
+
+  @@index([userId, createdAt])
+}
+
+model DrawnCard {
+  id                Int       @id @default(autoincrement())
+  readingId         String
+  reading           Reading   @relation(fields: [readingId], references: [id], onDelete: Cascade)
+
+  cardId            Int
+  card              TarotCard @relation(fields: [cardId], references: [id])
+
+  position          Int       // 1, 2, or 3 (Past, Present, Future)
+  isReversed        Boolean   @default(false)
+
+  createdAt         DateTime  @default(now())
+
+  @@index([readingId])
+}
+
+enum Language {
+  EN
+  ZH
+}
+
+enum ReadingStatus {
+  PENDING      // Cards drawn, waiting for interpretation
+  COMPLETED    // AI interpretation done
+  FAILED       // AI interpretation failed
+}
+
+// ====================================
+// PAYMENTS & TRANSACTIONS
+// ====================================
+
+model Transaction {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type              TransactionType
+  amount            Float              // 1.00, 5.00, 10.00, 99.00
+  currency          Currency
+
+  provider          PaymentProvider    // ALIPAY, WECHAT, STRIPE
+  providerOrderId   String?   @unique  // External payment ID
+
+  status            PaymentStatus @default(PENDING)
+
+  // What was purchased
+  readingsGranted   Int?               // Number of readings unlocked
+  isLifetimeUpgrade Boolean   @default(false)
+
+  metadata          Json?              // Additional data
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([providerOrderId])
+}
+
+enum TransactionType {
+  TIP           // ¥1, ¥5, $1, $5
+  SINGLE        // ¥2 / $1
+  BUNDLE        // ¥10 / $5
+  LIFETIME      // ¥99 / $99
+}
+
+enum Currency {
+  CNY   // Chinese Yuan
+  USD   // US Dollar
+}
+
+enum PaymentProvider {
+  ALIPAY
+  WECHAT
+  STRIPE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// ====================================
+// REFERRAL SYSTEM
+// ====================================
+
+model Referral {
+  id                String    @id @default(cuid())
+
+  referrerId        String
+  referrer          User      @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+
+  referredId        String    @unique
+  referred          User      @relation("Referred", fields: [referredId], references: [id], onDelete: Cascade)
+
+  rewardGranted     Boolean   @default(false)  // Has referrer received free reading?
+
+  createdAt         DateTime  @default(now())
+
+  @@index([referrerId])
 }
