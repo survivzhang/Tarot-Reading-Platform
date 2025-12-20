@@ -10,7 +10,7 @@ export async function createAlipayPayment(params: {
   currency: 'CNY';
   transactionId: string;
 }): Promise<PaymentResponse> {
-  const { amount, transactionId } = params;
+  const { transactionId } = params;
 
   // TODO: Implement actual Alipay integration
   // This is a placeholder implementation

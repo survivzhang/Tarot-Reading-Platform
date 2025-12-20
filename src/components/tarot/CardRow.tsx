@@ -1,7 +1,7 @@
 'use client';
 
 import TarotCard from './TarotCard';
-import type { DrawnCardData } from '@/types/tarot';
+
 
 interface CardRowProps {
   cards: Array<{

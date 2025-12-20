@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import CardDeck from '@/components/tarot/CardDeck';
+
 import CardDrawAnimation from '@/components/tarot/CardDrawAnimation';
 import CardRow from '@/components/tarot/CardRow';
 import UserInfoForm from '@/components/forms/UserInfoForm';
 import SignInForm from '@/components/forms/SignInForm';
 import { drawCards } from '@/lib/tarot/deck';
-import type { DrawnCardData } from '@/types/tarot';
+import type { DrawnCardData, TarotCard } from '@/types/tarot';
 
 type DrawingStep = 'intro' | 'drawing' | 'complete' | 'form';
 
@@ -17,7 +17,7 @@ export default function Home() {
   const [step, setStep] = useState<DrawingStep>('intro');
   const [drawnCards, setDrawnCards] = useState<DrawnCardData[]>([]);
   const [currentDrawIndex, setCurrentDrawIndex] = useState(0);
-  const [cardsData, setCardsData] = useState<any[]>([]);
+  const [cardsData, setCardsData] = useState<TarotCard[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
 
@@ -163,7 +163,7 @@ export default function Home() {
               </h2>
               <p className="text-gray-600 leading-relaxed">
                 Take a moment to quiet your mind. Think about the question or situation
-                that has brought you here. When you're ready, draw your cards.
+                that has brought you here. When you&apos;re ready, draw your cards.
               </p>
               <button
                 onClick={handleStartDrawing}
@@ -190,14 +190,17 @@ export default function Home() {
             </div>
 
             <div className="flex justify-center">
-              {getCurrentCard() && (
-                <CardDrawAnimation
-                  card={getCurrentCard()}
-                  isReversed={drawnCards[currentDrawIndex].isReversed}
-                  position={drawnCards[currentDrawIndex].position}
-                  onAnimationComplete={handleAnimationComplete}
-                />
-              )}
+              {(() => {
+                const card = getCurrentCard();
+                return card && (
+                  <CardDrawAnimation
+                    card={card}
+                    isReversed={drawnCards[currentDrawIndex].isReversed}
+                    position={drawnCards[currentDrawIndex].position}
+                    onAnimationComplete={handleAnimationComplete}
+                  />
+                );
+              })()}
             </div>
           </div>
         )}

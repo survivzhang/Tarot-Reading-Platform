@@ -59,10 +59,7 @@ export async function createStripeCheckout(params: {
 /**
  * Verifies Stripe webhook signature
  */
-export function verifyStripeWebhook(
-  payload: string,
-  signature: string
-): boolean {
+export function verifyStripeWebhook(): boolean {
   // In production, use Stripe's webhook signature verification
   // https://stripe.com/docs/webhooks/signatures
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;

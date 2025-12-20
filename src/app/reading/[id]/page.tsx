@@ -115,7 +115,7 @@ export default function ReadingPage({ params }: { params: Promise<{ id: string }
           {/* Question */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Your Question</h2>
-            <p className="text-gray-700 italic">"{reading.question}"</p>
+            <p className="text-gray-700 italic">&quot;{reading.question}&quot;</p>
           </div>
 
           {/* Interpretation */}

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { drawCards } from '@/lib/tarot/deck';
+
 import { createSession } from '@/lib/auth/session';
 import { detectRegion } from '@/lib/geo/detect-region';
 import type { CreateReadingInput } from '@/types/tarot';

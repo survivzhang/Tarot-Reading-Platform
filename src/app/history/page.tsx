@@ -48,7 +48,7 @@ export default function HistoryPage() {
           {/* Readings List */}
           {readings.length === 0 ? (
             <div className="bg-white rounded-lg shadow-md p-12 text-center">
-              <p className="text-gray-600 mb-4">You haven't had any readings yet</p>
+              <p className="text-gray-600 mb-4">You haven&apos;t had any readings yet</p>
               <button
                 onClick={() => router.push('/')}
                 className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
@@ -74,7 +74,7 @@ export default function HistoryPage() {
                         })}
                       </h3>
                       <p className="text-sm text-gray-600 italic line-clamp-2">
-                        "{reading.question}"
+                        &quot;{reading.question}&quot;
                       </p>
                     </div>
                     <div>
