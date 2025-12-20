@@ -21,6 +21,10 @@ export interface ReadingWithCards extends Reading {
   drawnCards: (DrawnCard & {
     card: TarotCard;
   })[];
+  user: {
+    email: string;
+    region: 'CN' | 'US';
+  };
 }
 
 export interface CardPosition {
