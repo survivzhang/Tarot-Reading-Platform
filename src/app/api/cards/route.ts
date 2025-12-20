@@ -6,9 +6,10 @@ export async function GET() {
   try {
     const cards = await prisma.tarotCard.findMany();
     return NextResponse.json(cards);
-  } catch {
+  } catch (error) {
+    console.error('Error fetching cards:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch cards' },
+      { error: 'Failed to fetch cards', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
