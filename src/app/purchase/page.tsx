@@ -19,7 +19,7 @@ export default function PurchasePage() {
       .catch((error) => console.error('Error fetching credits:', error));
 
     // Detect region (simplified - you'd get this from session/user)
-    setRegion('US'); // Default to US, update based on user data
+    // Removed setRegion('US') as it's already the default value
   }, []);
 
   const handleSelect = async (type: string, amount: number) => {
@@ -105,7 +105,7 @@ export default function PurchasePage() {
                   Can I share my referral link?
                 </h4>
                 <p className="text-gray-600 text-sm">
-                  Yes! When your friend completes their first reading, you'll both receive 1 free reading.
+                  Yes! When your friend completes their first reading, you&apos;ll both receive 1 free reading.
                 </p>
               </div>
             </div>
